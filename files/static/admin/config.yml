@@ -1,0 +1,18 @@
+locale: 'en'
+
+media_folder: "static/medias/uploads"
+public_folder: "/medias/uploads"
+
+collections:
+  - name: "post"
+    label: "Post"
+    folder: "content/post"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{title}}"
+    format: "json"
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "lib/Post" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publication date", name: "date", widget: "datetime" }
+      - { label: "Thumbnail", name: "thumbnail", widget: "image" }
+      - { label: "Text", name: "body", widget: "markdown" }
