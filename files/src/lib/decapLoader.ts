@@ -1,12 +1,48 @@
 import { browser, dev } from '$app/environment';
-import { PUBLIC_BACKEND_BRANCH, PUBLIC_GITHUB_REPO, PUBLIC_GITHUB_USER } from '$env/static/public';
+import { PUBLIC_BACKEND_BRANCH, PUBLIC_GITHUB_REPO, PUBLIC_GITHUB_USER, PUBLIC_WEBSITE_URL } from '$env/static/public';
+import { preprocessConfig, type Collection, type RedirectableCollection } from "$lib/decapUtils";
 import { Octokit } from "@octokit/core";
 import { load as loadYaml } from 'js-yaml';
 import fs from 'node:fs/promises';
 
+const CONFIG_PATH = "/admin/config.yml";
+
 type RelationField = {
     name: string;
     collection: string;
+};
+
+export const config = {
+    value: {
+        backend: {
+            name: dev ? "test-repo" : "github",
+            repo: `${PUBLIC_GITHUB_USER}/${PUBLIC_GITHUB_REPO}`,
+            branch: `${PUBLIC_BACKEND_BRANCH}`,
+            site_domain: `${PUBLIC_WEBSITE_URL}`,
+            base_url: `${PUBLIC_WEBSITE_URL}`,
+            auth_endpoint: "/api/auth",
+            use_graphql: true,
+        },
+        local_backend: dev,
+        load_config_file: false,
+    } as any,
+    first_get: true,
+    async get() {
+        if (this.first_get) {
+            let content: string;
+            if (browser) {
+                content = await (await fetch(CONFIG_PATH)).text();
+            } else {
+                content = await fs.readFile(process.cwd().concat('/static' + CONFIG_PATH), { encoding: 'utf-8' });
+            }
+            const configFile: any = loadYaml(content);
+            preprocessConfig(configFile);
+            for (const key in configFile) {
+                this.value[key] = configFile[key];
+            }
+        }
+        return this.value;
+    }
 };
 
 // TODO maybe find a better way to do this
@@ -100,38 +136,7 @@ async function loadFromGithub(path: string) {
 }
 
 export async function loadCollections() {
-    type File = {
-        name: string,
-        file: string,
-        fields: Field[]
-    };
-
-    type Field = {
-        widget: string;
-        value_field: string;
-        name: string;
-        collection: string;
-    };
-
-    type Collection = {
-        name: string,
-        files?: File[],
-        fields?: Field[]
-    };
-
-    type RedirectableCollection = {
-        name: string;
-        redirect?: string;
-    };
-
-    let config: any;
-    if (browser) {
-        config = loadYaml(await (await fetch('/admin/config.yml')).text());
-    } else {
-        config = loadYaml(await fs.readFile(process.cwd().concat('/static/admin/config.yml'), { encoding: 'utf-8' }));
-    }
-
-    const collections: Collection[] = config.collections;
+    const collections: Collection[] = (await config.get()).collections;
 
     const out = {
         relationFieldsMap: new Map<string, RelationField[]>(),

@@ -1,0 +1,11 @@
+{
+    "layout": "lib/pages/Home",
+    "title": "Home",
+    "post": {
+        "layout": "lib/Post",
+        "title": "",
+        "date": "",
+        "thumbnail": "",
+        "body": ""
+    }
+}

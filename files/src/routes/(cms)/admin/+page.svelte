@@ -1,12 +1,5 @@
 <script lang="ts">
-    import { dev } from "$app/environment";
-    import {
-        PUBLIC_BACKEND_BRANCH,
-        PUBLIC_GITHUB_REPO,
-        PUBLIC_GITHUB_USER,
-        PUBLIC_WEBSITE_URL,
-    } from "$env/static/public";
-    import { handleRelations } from "../../../lib/decapLoader.js";
+    import { config, handleRelations } from "../../../lib/decapLoader.js";
     import { onMount } from "svelte";
 
     export let data;
@@ -15,27 +8,16 @@
         // @ts-ignore
         const { CMS } = window;
 
-        const config = {
-            backend: {
-                name: dev ? "test-repo" : "github",
-                repo: `${PUBLIC_GITHUB_USER}/${PUBLIC_GITHUB_REPO}`,
-                branch: `${PUBLIC_BACKEND_BRANCH}`,
-                site_domain: `${PUBLIC_WEBSITE_URL}`,
-                base_url: `${PUBLIC_WEBSITE_URL}`,
-                auth_endpoint: "/api/auth",
-                use_graphql: true,
-            },
-            local_backend: dev,
-        };
+        config.get().then(config => {
+            CMS.init({ config });
 
-        CMS.init({ config });
-
-        data.previewCollections.forEach((collection) =>
-            CMS.registerPreviewTemplate(
-                collection.redirect ? collection.redirect : collection.name,
-                SvelteKitPreview,
-            ),
-        );
+            data.previewCollections.forEach((collection) =>
+                CMS.registerPreviewTemplate(
+                    collection.redirect ? collection.redirect : collection.name,
+                    SvelteKitPreview,
+                ),
+            );
+        });
 
         function SvelteKitPreview({ entry }: { entry: Map<string, any> }) {
             const host = window.location.host;

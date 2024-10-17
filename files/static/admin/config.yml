@@ -16,3 +16,17 @@ collections:
       - { label: "Publication date", name: "date", widget: "datetime" }
       - { label: "Thumbnail", name: "thumbnail", widget: "image" }
       - { label: "Text", name: "body", widget: "markdown" }
+  - name: pages
+    label: Pages
+    files:
+    - name: home
+      label: Home
+      file: content/pages/home.json
+      fields:
+        - { label: Layout, name: layout, widget: hidden, default: lib/pages/Home }
+        - { label: Title, name: title, widget: string, default: Home }
+        - name: post
+          label: Post
+          widget: object
+          collapsed: true
+          collection: post

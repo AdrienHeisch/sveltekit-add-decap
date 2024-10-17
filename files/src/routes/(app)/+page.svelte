@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Post from "$lib/Post.svelte";
+    import Home from "$lib/pages/Home.svelte";
 
     export let data;
 </script>
 
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<Post {data}></Post>
+<Home {data}></Home>

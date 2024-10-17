@@ -1,7 +1,7 @@
 #!/bin/bash
 GITHUB_URL="https://github.com/AdrienHeisch/sveltekit-add-decap.git"
 RUN_PACKAGES="@octokit/core"
-DEV_PACKAGES="@sveltejs/adapter-static @types/js-yaml js-yaml"
+DEV_PACKAGES="@sveltejs/adapter-static @types/js-yaml @types/node js-yaml"
 TMP_DIR=""
 
 cleanup() {
