@@ -2,6 +2,8 @@
 
 This repo can help you setup a SvelteKit project with DecapCMS. It will download and update Decap, register custom previews for your component and generate Typescript type definitions for your collections. Your SvelteKit configuration will be updated to use @sveltejs/adapter-static.
 
+This is some pretty rough tooling, I am no expert in NodeJS and the like.
+
 ## Installation
 
 The following command will download and execute the install.sh script from this repository. Please review the script before running it.
@@ -34,16 +36,21 @@ In your repository, you will find :
 - ./static/404.html : a 404 error page, needed with some hosts
 
 To register a new collection :
-- add it to ./static/admin/config.yml, please refer to the [official documentation](https://decapcms.org/docs/intro/)
-- every collection you want to register a preview for should have a field based on the following model, with default being set to the path of the component relative to ./src/ :
+- Add it to ./static/admin/config.yml, please refer to the [official documentation](https://decapcms.org/docs/intro/)
+- Every collection you want to register a preview for should have a field based on the following model, with default being set to the path of the component relative to ./src/ :
 ```yaml
 { label: "Layout", name: "layout", widget: "hidden", default: "lib/Post" }
 ```
-- any widget: "relation" field you create should have value_field: "{{slug}}" for the previews and type generation to work properly
-- a new Typescript type definition will be generated in ./src/decap.d.ts when you run the dev server, build your website or simply run the ./prebuild.ts script
-- create a new item (from the interface or manually) for your collection at the path you indicated, which must be within the ./content directory
-- create a component at the path you indicated in the layout field of your collection, for example ./src/lib/Post.svelte
-- the generated type can be used as a single prop object for your component, with all fields properly typed
+- For any field with widget: "relation", if you set value_field: "{{slug}}", previews and type generation will properly insert the content of the related item.
+- A new Typescript type definition will be generated in ./src/decap.d.ts when you run the dev server, build your website or simply run the ./prebuild.ts script
+- For a folder collection, create a new item (from the interface or manually) for your collection at the path you indicated, which must be within the ./content directory
+- For file collections, a new json file will be created using the default values of the fields. You can remove it to generate it again if needed.
+- Create a component at the path you indicated in the layout field of your collection, for example ./src/lib/Post.svelte
+The generated type can be used as a single prop object for your component, with all fields properly typed.
+
+## Non standard Decap feature
+
+- For any field with widget: "object", if you set collection: "name_of_a_collection", it will be replaced with the fields of the collection using this name (only folder collections are supported).
 
 ## Cloudflare Pages
 
