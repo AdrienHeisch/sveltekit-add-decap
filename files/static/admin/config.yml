@@ -11,7 +11,7 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{title}}"
     format: "json"
     fields:
-      - { label: "Layout", name: "layout", widget: "hidden", default: "lib/Post" }
+      - { label: "Layout", name: "layout", widget: "hidden", default: "lib/component/Post" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publication date", name: "date", widget: "datetime" }
       - { label: "Thumbnail", name: "thumbnail", widget: "image" }
