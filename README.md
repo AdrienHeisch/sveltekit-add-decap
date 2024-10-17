@@ -1,6 +1,6 @@
-# SvelteKit + DecapCMS (+ Cloudflare Pages)
+# SvelteKit + DecapCMS
 
-This repo can help you setup a SvelteKit project with DecapCMS. It will download and update Decap, register custom previews for your components, generate Typescript type definitions for your collections, and also add Cloudflare Pages functions for GitHub OAuth. Your SvelteKit configuration will be updated to use @sveltejs/adapter-static.
+This repo can help you setup a SvelteKit project with DecapCMS. It will download and update Decap, register custom previews for your component and generate Typescript type definitions for your collections. Your SvelteKit configuration will be updated to use @sveltejs/adapter-static.
 
 ## Installation
 
@@ -16,7 +16,6 @@ Once the install is complete, you will have to update the .env file with the rel
 
 In your repository, you will find :
 - ./content/post : a placeholder Decap collection
-- ./functions/api : Cloudflare Pages functions that will handle GitHub OAuth for you.
 - ./prebuild.ts : will be run before the dev and build script of your package.json.
 - ./src/app.css : placeholder css file that is imported elsewhere, in case you would want to add Tailwind later for example
 - ./src/lib/decapLoader.ts : export the loadContent function. see ./src/routes/(app)/+page.server.ts
@@ -32,7 +31,7 @@ In your repository, you will find :
 - ./src/routes/(cms)/admin/+page.svelte : route to the Decap admin panel, contains the code for initializing Decap and registering a preview for each collection.
 - ./static/admin/config.yml : the Decap configuration file, with a placeholder collection. The backend configuration is in ./src/routes/(cms)/admin/+page.svelte
 - ./static/media/uploads : some placeholder media content
-- ./static/404.html : a 404 error page for Cloudflare Pages
+- ./static/404.html : a 404 error page, needed with some hosts
 
 To register a new collection :
 - add it to ./static/admin/config.yml, please refer to the [official documentation](https://decapcms.org/docs/intro/)
@@ -46,5 +45,8 @@ To register a new collection :
 - create a component at the path you indicated in the layout field of your collection, for example ./src/lib/Post.svelte
 - the generated type can be used as a single prop object for your component, with all fields properly typed
 
+## Cloudflare Pages
+
+Cloudflare is a nice free host for a fully static website based on a GitHub repo. It can even let you authenticate into Github OAuth using Pages functions. See [this repo](https://github.com/i40west/netlify-cms-cloudflare-pages) for more information on setting it up.
 
 Enjoy !
