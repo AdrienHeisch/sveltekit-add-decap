@@ -21,7 +21,7 @@ In your repository, you will find :
 - ./prebuild.ts : will be run before the dev and build script of your package.json.
 - ./src/app.css : placeholder css file that is imported elsewhere, in case you would want to add Tailwind later for example
 - ./src/lib/decap/loader.ts : export the loadContent function. see ./src/routes/(app)/+page.server.ts
-- ./src/lib/Post.svelte : placeholder component
+- ./src/lib/components/Post.svelte : placeholder component
 - ./src/routes/+layout.ts : default layout with prerendering
 - ./src/routes/(app)/+layout.svelte : imports ./src/app.css
 - ./src/routes/(app)/+page.server.ts : example use of loadContent
@@ -45,7 +45,7 @@ To register a new collection :
 - A new Typescript type definition will be generated in ./src/decap.d.ts when you run the dev server, build your website or simply run the ./prebuild.ts script
 - For a folder collection, create a new item (from the interface or manually) for your collection at the path you indicated, which must be within the ./content directory. You should always set default values to avoid having "undefined" all over the place in the preview when an item is created.
 - For file collections, a new json file will be created using the default values from the fields, or default values according to the fields' types. You can remove it to generate it again if needed.
-- Create a component at the path you indicated in the layout field of your collection, for example ./src/lib/Post.svelte
+- Create a component at the path you indicated in the layout field of your collection, for example ./src/lib/components/Post.svelte
 The generated type can be used as a single prop object for your component, with all fields properly typed.
 
 ## Non standard Decap feature
