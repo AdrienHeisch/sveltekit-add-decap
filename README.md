@@ -54,6 +54,6 @@ The generated type can be used as a single prop object for your component, with 
 
 ## Cloudflare Pages
 
-Cloudflare is a nice free host for a fully static website based on a GitHub repo. It can even let you authenticate into Github OAuth using Pages functions. See [this repo](https://github.com/i40west/netlify-cms-cloudflare-pages) for more information on setting it up.
+In my experience Cloudflare is a host for a fully static website based on a GitHub repo. It can even let you authenticate into Github OAuth using Pages functions. See [this repo](https://github.com/i40west/netlify-cms-cloudflare-pages) for more information on setting it up.
 
 Enjoy !
