@@ -4,7 +4,7 @@ This repo can help you setup a SvelteKit project with DecapCMS. It will download
 
 ## Installation
 
-The following command will download and execute the sveltekit-add-decap.sh script from this repository. Please review the script before running it.
+The following command will download and execute the install.sh script from this repository. Please review the script before running it.
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AdrienHeisch/sveltekit-add-decap/master/install.sh | bash

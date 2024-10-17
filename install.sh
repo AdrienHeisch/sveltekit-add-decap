@@ -22,32 +22,37 @@ if [[ $answer =~ ^[Nn]$ ]]; then
     exit 1
 fi
 
+echo
+echo "Cloning repository"
 TMP_DIR=$(mktemp -d)
-
-echo "Cloning repository..."
 if ! git clone "$GITHUB_URL" "$TMP_DIR"; then
     echo "Failed to clone repository. Please check your internet connection and the repository URL."
     exit 1
 fi
 
-echo "Copying files..."
+echo "Copying files"
 cp -r "$TMP_DIR/files/." ./ || { echo "Failed to copy files."; exit 1; }
 
 if [ -f "src/routes/+page.svelte" ]; then
     rm src/routes/+page.svelte
     echo "Removed src/routes/+page.svelte"
-else
-    echo "src/routes/+page.svelte not found. Skipping removal."
 fi
 
+echo "Adding package.json scripts"
 jq --tab '.scripts += {"predev": "./prebuild.ts", "prebuild": "./prebuild.ts"}' package.json > package.json.tmp && mv package.json.tmp package.json
+
+echo "Adding @sveltejs/adapter-static to svelte.config.js"
 sed -i 's/@sveltejs\/adapter-auto/@sveltejs\/adapter-static/g' svelte.config.js
+
+echo "Adding ./static/admin/decap-cms.js to .gitignore"
 printf "\n# DecapCMS\n/static/admin/decap-cms.js" >> .gitignore
+
+echo "Adding .env file"
 printf "PUBLIC_GITHUB_USER=JohnDoe\nPUBLIC_GITHUB_REPO=myrepo\nPUBLIC_WEBSITE_URL=https://example.com\nPUBLIC_BACKEND_BRANCH=master" > .env
 
 install_packages() {
     local cmd=$1
-    echo "Installing packages using $cmd..."
+    echo "Installing packages using $cmd"
     $cmd add $RUN_PACKAGES || { echo "Failed to install runtime packages."; exit 1; }
     $cmd add -D $DEV_PACKAGES || { echo "Failed to install dev packages."; exit 1; }
 }
@@ -65,4 +70,5 @@ else
     exit 1
 fi
 
+echo
 echo "Setup completed successfully !"
