@@ -25,7 +25,7 @@ fi
 TMP_DIR=$(mktemp -d)
 
 echo "Cloning repository..."
-if ! git clone "$REPO_URL" "$TMP_DIR"; then
+if ! git clone "$GITHUB_URL" "$TMP_DIR"; then
     echo "Failed to clone repository. Please check your internet connection and the repository URL."
     exit 1
 fi
@@ -43,6 +43,7 @@ fi
 jq --tab '.scripts += {"predev": "./prebuild.ts", "prebuild": "./prebuild.ts"}' package.json > package.json.tmp && mv package.json.tmp package.json
 sed -i 's/@sveltejs\/adapter-auto/@sveltejs\/adapter-static/g' svelte.config.js
 printf "\n# DecapCMS\n/static/admin/decap-cms.js" >> .gitignore
+printf "PUBLIC_GITHUB_USER=JohnDoe\nPUBLIC_GITHUB_REPO=myrepo\nPUBLIC_WEBSITE_URL=https://example.com\nPUBLIC_BACKEND_BRANCH=master" > .env
 
 install_packages() {
     local cmd=$1
