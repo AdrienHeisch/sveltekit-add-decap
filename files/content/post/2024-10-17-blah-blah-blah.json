@@ -1,5 +1,5 @@
 {
-  "layout": "lib/component/Post",
+  "layout": "lib/components/Post",
   "title": "Blah blah blah",
   "date": "2024-10-17T16:46:00.000Z",
   "thumbnail": "/medias/uploads/svelte.png",
