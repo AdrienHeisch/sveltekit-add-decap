@@ -1,0 +1,8 @@
+{
+  "layout": "lib/components/PostList",
+  "title": "My List",
+  "list": [
+    "9999-01-01-example",
+    "2024-10-17-blah-blah-blah"
+  ]
+}

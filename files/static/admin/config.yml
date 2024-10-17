@@ -16,6 +16,16 @@ collections:
       - { label: "Publication date", name: "date", widget: "datetime" }
       - { label: "Thumbnail", name: "thumbnail", widget: "image" }
       - { label: "Text", name: "body", widget: "markdown" }
+  - name: "post_list"
+    label: "Post List"
+    folder: "content/post_list"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{name}}"
+    format: "json"
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "lib/components/PostList" }
+      - { label: "Name", name: "title", widget: "string", default: List }
+      - { label: "Posts", name: "list", widget: "relation", multiple: true, collection: "post", value_field: "{{slug}}", search_fields: ["title"] }
   - name: pages
     label: Pages
     files:
@@ -25,8 +35,9 @@ collections:
       fields:
         - { label: Layout, name: layout, widget: hidden, default: lib/pages/Home }
         - { label: Title, name: title, widget: string, default: Home }
-        - name: post
-          label: Post
+        - name: postChild
+          label: Post data within Home
           widget: object
           collapsed: true
           collection: post
+        - { label: Post List as a relation, name: postListRelation, widget: relation, collection: post_list, value_field: "{{slug}}", search_fields: ["title"] }

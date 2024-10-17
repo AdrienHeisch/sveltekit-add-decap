@@ -1,7 +1,7 @@
 {
-  "layout": "lib/Post",
-  "title": "Example",
+  "layout": "lib/components/Post",
+  "title": "Example within a list",
   "date": "9999-01-01T00:00:00.000Z",
   "thumbnail": "/medias/uploads/svelte.png",
-  "body": "This is an example !"
+  "body": "And the list is inserted in Home as a relation !"
 }

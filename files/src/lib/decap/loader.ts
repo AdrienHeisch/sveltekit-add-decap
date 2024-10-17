@@ -10,6 +10,7 @@ const CONFIG_PATH = "/admin/config.yml";
 type RelationField = {
     name: string;
     collection: string;
+    multiple: boolean;
 };
 
 export const config = {
@@ -72,27 +73,33 @@ export async function loadContent(collection: string, slug: string) {
         data = JSON.parse(content);
     }
 
-    await handleRelations(collection, data);
+    await handleRelations(collection, slug, data);
     return data;
 }
 
-export async function handleRelations(collection: string, data: any) {
-    const relationsFields = (await relationFieldsMap.get()).get(collection);
+export async function handleRelations(collection: string, slug: string, data: any) {
+    let relationsFields = (await relationFieldsMap.get()).get(collection);
+
+    if (!relationsFields) {
+        relationsFields = (await relationFieldsMap.get()).get(slug);
+    }
+
     if (relationsFields) {
         for await (const rel of relationsFields) {
             let slugs = data[rel.name];
             if (Array.isArray(slugs)) {
                 data[rel.name] = await Promise.all(
                     slugs.map(
-                        async (slug) =>
-                            await loadContent(rel.collection, slug),
+                        async (slug) => await loadContent(rel.collection, slug),
                     ),
                 );
-            } else {
-                data[rel.name] = slugs = await loadContent(
-                    collection,
+            } else if (slugs) {
+                data[rel.name] = await loadContent(
+                    rel.collection,
                     slugs,
                 );
+            } else {
+                data[rel.name] = rel.multiple ? [] : null;
             }
         }
     }
@@ -149,7 +156,7 @@ export async function loadCollections() {
             collection.files.forEach((file) => {
                 file.fields.forEach((field) => {
                     if (field.widget === 'relation' && field.value_field === '{{slug}}') {
-                        fields.push({ name: field.name, collection: field.collection });
+                        fields.push({ name: field.name, collection: field.collection, multiple: field.multiple });
                     }
                 })
                 if (fields.length > 0) {
@@ -160,7 +167,7 @@ export async function loadCollections() {
         } else if (collection.fields) {
             collection.fields?.forEach((field) => {
                 if (field.widget === 'relation' && field.value_field === '{{slug}}') {
-                    fields.push({ name: field.name, collection: field.collection });
+                    fields.push({ name: field.name, collection: field.collection, multiple: field.multiple });
                 }
             })
             if (fields.length > 0) {

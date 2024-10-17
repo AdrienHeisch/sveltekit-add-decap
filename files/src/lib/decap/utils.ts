@@ -5,7 +5,8 @@ export type Field = {
     value_field: string;
     name: string;
     collection: string;
-    fields?: any[];
+    fields: any[];
+    multiple: boolean;
 };
 
 export type File = {
@@ -45,7 +46,6 @@ function preprocessField(field: any, config: any) {
             throw "Invalid collection used as object model";
         }
         field.fields = model.fields;
-        delete field.collection;
     }
     return field;
 }
@@ -184,7 +184,7 @@ function getTypeForField(field: any): string {
         case 'number':
             return (field.value_type == 'int' || field.value_type == 'float') ? 'number' : 'string';
         case 'object':
-            return genType(field.fields);
+            return field.collection ? toTypeName(field.collection) : genType(field.fields);
         case 'relation':
             return toTypeName(field.collection) + (field.multiple ? '[]' : '');
         case 'select':
@@ -238,7 +238,7 @@ function getFieldDefaultValue(field: any, recursion = false) {
             }
             return recursion ? def : JSON.stringify(def, null, 1).split('\n').map(line => line.trim()).join('\n');
         case 'relation':
-            return field.multiple ? [] : null;    
+            return field.multiple ? [] : null;
         case 'select':
             if (typeof field.options[0] === 'string') {
                 return field.multiple ? "" : [];

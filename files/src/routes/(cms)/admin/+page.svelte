@@ -23,12 +23,13 @@
             const host = window.location.host;
             const protocol = host.startsWith("localhost") ? "http" : "https";
 
-            let collectionName: string = entry.get("collection");
+            const collectionName: string = entry.get("collection");
+            let collectionPath: string = collectionName;
             const collectionRedirect = data.previewCollections.find(
                 (collection) => collection.name === collectionName,
             )?.redirect;
             if (collectionRedirect) {
-                collectionName = collectionRedirect;
+                collectionPath = collectionRedirect;
             }
 
             const layout: string = entry.get("data").get("layout");
@@ -38,7 +39,7 @@
 
             const sendData = async () => {
                 const data = entry.get("data").toJS();
-                await handleRelations(collectionName, data);
+                await handleRelations(collectionName, collectionPath, data);
                 ref?.contentWindow?.postMessage(data, previewUrl);
             };
 
