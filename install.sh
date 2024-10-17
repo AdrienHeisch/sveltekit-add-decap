@@ -17,7 +17,7 @@ echo "The following packages will be installed : $RUN_PACKAGES $DEV_PACKAGES"
 echo ".gitignore and svelte.config.js will be modified."
 echo "src/routes/+page.svelte will be deleted."
 echo -n "Do you agree to continue? (y/n): "
-read answer
+read -r answer < /dev/tty
 if [[ $answer =~ ^[Nn]$ ]]; then
     exit 1
 fi
