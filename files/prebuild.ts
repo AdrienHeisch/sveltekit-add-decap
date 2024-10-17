@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { load as loadYaml } from 'js-yaml';
 import fs from 'node:fs/promises';
-import { addDefaultContent, genTypedefModule, preprocessConfig } from './src/lib/decapUtils';
+import { addDefaultContent, genTypedefModule, preprocessConfig } from './src/lib/decap/utils';
 
 const DECAP_JS_FILE = './static/admin/decap-cms.js';
 

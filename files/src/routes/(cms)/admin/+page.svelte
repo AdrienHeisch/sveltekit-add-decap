@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { config, handleRelations } from "../../../lib/decapLoader.js";
+    import { config, handleRelations } from "../../../lib/decap/loader";
     import { onMount } from "svelte";
 
     export let data;

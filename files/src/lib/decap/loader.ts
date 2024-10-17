@@ -1,6 +1,6 @@
 import { browser, dev } from '$app/environment';
 import { PUBLIC_BACKEND_BRANCH, PUBLIC_GITHUB_REPO, PUBLIC_GITHUB_USER, PUBLIC_WEBSITE_URL } from '$env/static/public';
-import { preprocessConfig, type Collection, type RedirectableCollection } from "$lib/decapUtils";
+import { preprocessConfig, type Collection, type RedirectableCollection } from "$lib/decap/utils";
 import { Octokit } from "@octokit/core";
 import { load as loadYaml } from 'js-yaml';
 import fs from 'node:fs/promises';

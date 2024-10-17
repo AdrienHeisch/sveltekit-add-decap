@@ -20,7 +20,7 @@ In your repository, you will find :
 - ./content/post : a placeholder Decap collection
 - ./prebuild.ts : will be run before the dev and build script of your package.json.
 - ./src/app.css : placeholder css file that is imported elsewhere, in case you would want to add Tailwind later for example
-- ./src/lib/decapLoader.ts : export the loadContent function. see ./src/routes/(app)/+page.server.ts
+- ./src/lib/decap/loader.ts : export the loadContent function. see ./src/routes/(app)/+page.server.ts
 - ./src/lib/Post.svelte : placeholder component
 - ./src/routes/+layout.ts : default layout with prerendering
 - ./src/routes/(app)/+layout.svelte : imports ./src/app.css
